@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Model Performance — Laptop Price AI{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+    <h1>M odel Performance</h1>
+    <p>Evaluation metrics and visual analysis of the trained machine learning model.</p>
+</div>
+
+<!-- ── Metric Cards ── -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-label">Mean Absolute Error</div>
+        <div class="metric-value">{{ mae }}</div>
+        <div class="metric-desc">MAE — avg. absolute deviation</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Mean Squared Error</div>
+        <div class="metric-value">{{ mse }}</div>
+        <div class="metric-desc">MSE — penalises large errors</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">R² Score</div>
+        <div class="metric-value">{{ r2 }}</div>
+        <div class="metric-desc">Variance explained by model</div>
+    </div>
+</div>
+
+<!-- ── Performance Charts ── -->
+<div class="perf-charts" style="margin-bottom: 5rem;">
+    <div class="chart-card">
+        <h2>📌 Actual vs Predicted Prices</h2>
+        <img src="data:image/png;base64,{{ plot_actual_vs_predicted }}" alt="Actual vs Predicted">
+    </div>
+    <div class="chart-card">
+        <h2>⚖️ Algorithm Comparison</h2>
+        <img src="data:image/png;base64,{{ plot_algorithm_comparison }}" alt="Algorithm Comparison">
+    </div>
+</div>
+
+{% endblock %}

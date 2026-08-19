@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Model Performance{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{{ url_for('static', filename='model_performance.css') }}">{% endblock %}
+
+{% block content %}
+{% set metrics = metadata.test_metrics %}
+<header class="page-head">
+    <span class="eyebrow">MODEL EVALUATION</span>
+    <h1>Performance on unseen test data</h1>
+    <p>The selected {{ metadata.selected_model }} model was evaluated on {{ metadata.split.test }} untouched records. Currency errors are reported in the dataset's native Indian rupees (INR).</p>
+</header>
+
+<section class="performance-metrics" aria-label="Test-set performance metrics">
+    <article><span>Test R² (log price)</span><strong>{{ '%.3f'|format(metrics.r2) }}</strong><p>Proportion of variation explained after transforming prices to the natural-log scale.</p></article>
+    <article><span>Mean absolute error</span><strong>₹{{ '{:,.0f}'.format(metrics.mae_inr) }}</strong><p>Average absolute difference between predicted and actual price.</p></article>
+    <article><span>Root mean squared error</span><strong>₹{{ '{:,.0f}'.format(metrics.rmse_inr) }}</strong><p>Error measure that gives larger misses more weight.</p></article>
+    <article><span>Mean absolute percentage error</span><strong>{{ '%.1f'|format(metrics.mape_percent) }}%</strong><p>Average prediction error relative to each laptop's actual price.</p></article>
+</section>
+
+<section class="performance-panel">
+    <div class="panel-heading">
+        <div><span class="eyebrow">CROSS-VALIDATION</span><h2>Algorithm comparison</h2></div>
+        <p>Five-fold results on identical training partitions. Lower log-RMSE is better.</p>
+    </div>
+    <div class="table-scroll">
+        <table class="model-table">
+            <thead><tr><th scope="col">Model</th><th scope="col">CV R²</th><th scope="col">CV MAE (log)</th><th scope="col">CV RMSE (log)</th></tr></thead>
+            <tbody>
+                {% for model in metadata.model_comparison %}
+                <tr{% if model.model == metadata.selected_model %} class="selected-model"{% endif %}>
+                    <th scope="row">{{ model.model }}{% if model.model == metadata.selected_model %}<span class="selected-badge">Selected</span>{% endif %}</th>
+                    <td>{{ '%.3f'|format(model.cv_r2_mean) }} <small>± {{ '%.3f'|format(model.cv_r2_std) }}</small></td>
+                    <td>{{ '%.3f'|format(model.cv_mae_log_mean) }}</td><td>{{ '%.3f'|format(model.cv_rmse_log_mean) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="evaluation-note">
+    <div><span class="eyebrow">UNCERTAINTY CHECK</span><h2>90% prediction interval</h2><p>The interval covered {{ '%.1f'|format(metrics.interval_empirical_coverage * 100) }}% of untouched test prices, compared with the {{ '%.0f'|format(metrics.interval_nominal_coverage * 100) }}% target.</p></div>
+    <a class="button secondary" href="/methodology">Read the methodology</a>
+</section>
+{% endblock %}

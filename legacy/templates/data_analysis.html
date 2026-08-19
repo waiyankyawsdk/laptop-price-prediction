@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Data Analysis — Laptop Price AI{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+    <h1>Data Analysis</h1>
+    <p>Interactive visualizations and statistical insights from the laptop dataset.</p>
+</div>
+
+
+<div class="charts-grid">
+    <div class="chart-card">
+        <h2>Histogram of Laptop Prices</h2>
+        <div class="chart-container">
+            {{ plots.plot_price_histogram | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Boxplot of Laptop Prices</h2>
+        <div class="chart-container">
+            {{ plots.plot_price_boxplot | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Average Price by Company</h2>
+        <div class="chart-container">
+            {{ plots.plot_avg_price_company | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Average Price by RAM</h2>
+        <div class="chart-container">
+            {{ plots.plot_avg_price_ram | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Screen Size vs Price</h2>
+        <div class="chart-container">
+            {{ plots.plot_screen_size_vs_price | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Distribution of Laptop Types</h2>
+        <div class="chart-container">
+            {{ plots.plot_laptop_types_distribution | safe }}
+        </div>
+    </div>
+    <div class="chart-card">
+        <h2>Storage Type Frequency (SSD vs HDD)</h2>
+        <div class="chart-container">
+            {{ plots.plot_storage_type_frequency | safe }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

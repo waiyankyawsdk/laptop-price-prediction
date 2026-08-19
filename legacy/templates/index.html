@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Home — Laptop Price Prediction{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ── -->
+<section class="hero">
+    <span class="hero-badge">🤖 ML-Powered Price Estimator</span>
+    <h1>Predict Any Laptop Price<br>with Confidence</h1>
+    <p class="lead">
+        Enter your laptop's specifications and our trained machine learning model
+        will instantly estimate its market price — backed by real data.
+    </p>
+    <div>
+        <a href="/prediction" class="btn-hero">🔮 Get a Prediction</a>
+        <a href="/data-analysis" class="btn-hero-outline">📊 Explore Data</a>
+    </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<div class="features-row">
+    <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>Get price predictions in milliseconds powered by a trained Random Forest model.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Data-Driven</h3>
+        <p>Trained on hundreds of real laptop listings across major brands and form factors.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>Deep Analysis</h3>
+        <p>Explore interactive charts and correlation heatmaps of the underlying dataset.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>High Accuracy</h3>
+        <p>Compare multiple algorithms and inspect R² scores, MAE, and residual plots.</p>
+    </div>
+</div>
+
+<!-- ── ABOUT BLOCK ── -->
+<div class="home-about">
+    <!-- Horizontal scrolling banner -->
+    <div class="banner-carousel">
+        <div class="banner-track">
+            <div class="banner-slide">
+                <img src="{{ url_for('static', filename='images/01.jpg') }}" alt="Laptop showcase" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Laptop Showcase</div>
+            </div>
+            <div class="banner-slide">
+                <img src="{{ url_for('static', filename='images/02.png') }}" alt="Data analysis" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Data Analysis</div>
+            </div>
+            <div class="banner-slide">
+                <img src="{{ url_for('static', filename='images/03.jpg') }}" alt="Machine learning" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Machine Learning</div>
+            </div>
+            <!-- Duplicated for seamless loop -->
+            <div class="banner-slide" aria-hidden="true">
+                <img src="{{ url_for('static', filename='images/01.jpg') }}" alt="" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Laptop Showcase</div>
+            </div>
+            <div class="banner-slide" aria-hidden="true">
+                <img src="{{ url_for('static', filename='images/02.png') }}" alt="" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Data Analysis</div>
+            </div>
+            <div class="banner-slide" aria-hidden="true">
+                <img src="{{ url_for('static', filename='images/03.jpg') }}" alt="" onerror="this.parentElement.style.display='none'">
+                <div class="banner-caption">Machine Learning</div>
+            </div>
+        </div>
+    </div>
+    <div class="home-about-text">
+        <h2>Smart Predictions for Smarter Purchases</h2>
+        <p>
+            This project is a full-stack machine learning web application built to solve a practical problem:
+            estimating laptop market value from hardware specs alone.
+        </p>
+        <p>
+            The application is built using <strong>Python</strong>, <strong>Flask</strong>, and
+            <strong>scikit-learn</strong> on the backend, with a responsive, modern frontend.
+        </p>
+        <a href="/about" class="btn-hero-outline" style="margin-left:0; display:inline-flex;">Learn More →</a>
+    </div>
+</div>
+
+{% endblock %}
