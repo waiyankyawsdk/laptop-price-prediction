@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}About — Laptop Price AI{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+    <h1>About the Project</h1>
+    <p>A full-stack machine learning application for intelligent laptop price estimation using Regression-Based Machine Learning.</p>
+</div>
+
+<div class="about-layout">
+
+    <!-- Intro paragraph -->
+    <div class="about-intro">
+        <p>
+            This project is a web application that demonstrates the power of data science and machine learning
+            applied to a real-world problem: <strong>predicting the price of laptops based on their hardware
+                specifications</strong>.
+        </p>
+        <p>
+            A Random Forest regression model is trained on a curated dataset of laptop listings,
+            then served through a Flask API. The frontend provides an intuitive interface to submit
+            specifications and receive instant price estimates.
+        </p>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="tech-stack">
+        <div class="tech-card">
+            <h3>⚙️ Backend</h3>
+            <ul>
+                <li>Python 3</li>
+                <li>Flask (web framework)</li>
+                <li>scikit-learn (ML pipeline)</li>
+                <li>pandas &amp; numpy</li>
+                <li>matplotlib / seaborn</li>
+            </ul>
+        </div>
+        <div class="tech-card">
+            <h3>🎨 Frontend</h3>
+            <ul>
+                <li>HTML5 &amp; Jinja2 templates</li>
+                <li>Bootstrap 5</li>
+                <li>Custom CSS Design System</li>
+                <li>Google Fonts (Inter, Outfit)</li>
+                <li>Vanilla JavaScript</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Project Structure -->
+    <div class="dir-list">
+        <h2>📂 Project Structure</h2>
+        <ul>
+            <li><code>data/</code> — Raw laptop dataset (CSV)</li>
+            <li><code>notebooks/</code> — Jupyter notebooks for EDA &amp; model dev</li>
+            <li><code>src/</code> — Flask app <code>main.py</code> and utility functions</li>
+            <li><code>static/</code> — CSS, images, and static assets</li>
+            <li><code>templates/</code> — Jinja2 HTML templates</li>
+            <li><code>models/</code> — Saved model and preprocessor pickle files</li>
+        </ul>
+    </div>
+
+    <!-- Author -->
+    <div class="author-card">
+        <div class="author-avatar">👨‍💻</div>
+        <div>
+            <h3>Developer</h3>
+            <p>This project was created by Sitt Hmue Naing & Wai Yan Kyaw focused on building
+                practical machine learning applications using Regression-Based Machine Learning.</p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

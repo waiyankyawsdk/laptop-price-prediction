@@ -1,0 +1,87 @@
+.performance-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.performance-metrics article,
+.performance-panel,
+.evaluation-note {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.performance-metrics article { padding: 22px; }
+.performance-metrics span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.performance-metrics strong {
+  display: block;
+  color: var(--blue);
+  font-size: 28px;
+  margin: 8px 0;
+}
+.performance-metrics p { font-size: 13px; line-height: 1.5; margin: 0; }
+.performance-panel { padding: 28px; margin-bottom: 24px; }
+.panel-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 22px;
+}
+.panel-heading h2, .evaluation-note h2 { margin: 5px 0 0; }
+.panel-heading p { max-width: 430px; margin: 0; text-align: right; }
+.table-scroll { overflow-x: auto; }
+.model-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+.model-table th, .model-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+}
+.model-table th:first-child { text-align: left; }
+.model-table thead th {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.model-table tbody tr:last-child > * { border-bottom: 0; }
+.model-table tbody th { font-size: 14px; }
+.model-table td { font-variant-numeric: tabular-nums; }
+.model-table small { color: var(--muted); }
+.selected-model { background: var(--light); }
+.selected-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.evaluation-note {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 28px;
+}
+.evaluation-note p { max-width: 720px; margin: 10px 0 0; }
+.evaluation-note .button { flex: none; }
+
+@media (max-width: 800px) {
+  .performance-metrics { grid-template-columns: 1fr; }
+  .panel-heading, .evaluation-note { align-items: flex-start; flex-direction: column; }
+  .panel-heading p { text-align: left; }
+  .evaluation-note .button { width: 100%; text-align: center; }
+}

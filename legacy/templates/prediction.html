@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% block title %}Price Prediction — Laptop Price AI{% endblock %}
+
+{% block content %}
+
+<div class="section-header">
+    <h1> Predict Laptop Price</h1>
+    <p>Fill in the specifications below and our model will estimate the market price instantly.</p>
+</div>
+
+<div class="prediction-layout">
+
+    <!-- ── LEFT: FORM ── -->
+    <div class="form-card">
+
+        <form action="/predict" method="post" id="prediction-form">
+
+            <!-- Row 1: Brand & Type -->
+            <p class="form-section-title">Brand &amp; Category</p>
+            <div class="form-grid" style="margin-bottom:1.5rem;">
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="company">Company</label>
+                    <select class="form-control-modern" id="company" name="company">
+                        {% for company in companies %}
+                            <option value="{{ company }}">{{ company }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="type">Type</label>
+                    <select class="form-control-modern" id="type" name="type">
+                        {% for type in types %}
+                            <option value="{{ type }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row 2: Hardware -->
+            <p class="form-section-title">Hardware Specifications</p>
+            <div class="form-grid" style="margin-bottom:1.5rem;">
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="ram">RAM (GB)</label>
+                    <input type="number" class="form-control-modern" id="ram" name="ram"
+                           min="2" max="64" step="2" placeholder="e.g. 8" required>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="weight">Weight (kg)</label>
+                    <input type="number" class="form-control-modern" id="weight" name="weight"
+                           step="0.01" placeholder="e.g. 1.80" required>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="cpu">CPU Brand</label>
+                    <select class="form-control-modern" id="cpu" name="cpu">
+                        {% for cpu in cpus %}
+                            <option value="{{ cpu }}">{{ cpu }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="gpu">GPU Brand</label>
+                    <select class="form-control-modern" id="gpu" name="gpu">
+                        {% for gpu in gpus %}
+                            <option value="{{ gpu }}">{{ gpu }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row 3: Storage -->
+            <p class="form-section-title">Storage</p>
+            <div class="form-grid" style="margin-bottom:1.5rem;">
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="hdd">HDD (GB)</label>
+                    <input type="number" class="form-control-modern" id="hdd" name="hdd"
+                           min="0" step="128" placeholder="e.g. 0" required>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="ssd">SSD (GB)</label>
+                    <input type="number" class="form-control-modern" id="ssd" name="ssd"
+                           min="0" step="128" placeholder="e.g. 512" required>
+                </div>
+            </div>
+
+            <!-- Row 4: Display -->
+            <p class="form-section-title">Display</p>
+            <div class="form-grid" style="margin-bottom:1.5rem;">
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="touchscreen">Touchscreen</label>
+                    <select class="form-control-modern" id="touchscreen" name="touchscreen">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="ips">IPS Panel</label>
+                    <select class="form-control-modern" id="ips" name="ips">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group-modern full-width">
+                    <label class="form-label-modern" for="ppi">PPI (Pixels Per Inch)</label>
+                    <input type="number" class="form-control-modern" id="ppi" name="ppi"
+                           placeholder="e.g. 141" required>
+                </div>
+            </div>
+
+            <!-- Row 5: OS -->
+            <p class="form-section-title">Operating System</p>
+            <div style="margin-bottom:0.5rem;">
+                <div class="form-group-modern">
+                    <label class="form-label-modern" for="os">OS</label>
+                    <select class="form-control-modern" id="os" name="os">
+                        {% for os in oses %}
+                            <option value="{{ os }}">{{ os }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-predict" id="predict-btn">
+                <span id="btn-text">🔮 Predict Price</span>
+            </button>
+
+        </form>
+
+    </div><!-- /.form-card -->
+
+    <!-- ── RIGHT: SIDEBAR ── -->
+    <div class="prediction-sidebar">
+
+        {% if prediction %}
+        <div class="sidebar-card result-card pulse">
+            <div class="result-label">Estimated Market Price</div>
+            <div class="result-price">${{ prediction }}</div>
+            <div class="result-note">Based on your specified laptop configuration.</div>
+        </div>
+        {% else %}
+        <div class="sidebar-card">
+            <div class="result-label">Estimated Price</div>
+            <div style="color:var(--text-muted); font-size:0.88rem; margin-top:0.5rem;">
+                Fill out the form and click <strong style="color:var(--primary-light)">Predict Price</strong> to see the estimated value here.
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="sidebar-card">
+            <p class="tips-title">💡 Tips for Better Results</p>
+            <ul class="tips-list">
+                <li>Use accurate RAM values (e.g. 8, 16, 32 GB)</li>
+                <li>PPI depends on screen size and resolution</li>
+                <li>Larger SSD generally increases price</li>
+                <li>Premium brands (Apple, Razer) predict higher</li>
+                <li>Weight gives a hint about build quality</li>
+            </ul>
+        </div>
+
+        <div class="sidebar-card">
+            <p class="tips-title">📌 How It Works</p>
+            <ul class="tips-list">
+                <li>Features are preprocessed and scaled</li>
+                <li>A Random Forest model makes the prediction</li>
+                <li>Price returned in USD (log-transformed internally)</li>
+            </ul>
+        </div>
+
+    </div><!-- /.prediction-sidebar -->
+
+</div><!-- /.prediction-layout -->
+
+<script>
+    document.getElementById('prediction-form').addEventListener('submit', function() {
+        const btn = document.getElementById('predict-btn');
+        const txt = document.getElementById('btn-text');
+        btn.disabled = true;
+        txt.textContent = '⏳ Predicting…';
+    });
+</script>
+
+{% endblock %}

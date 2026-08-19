@@ -1,0 +1,73 @@
+{
+  "dataset_rows": 1303,
+  "target": "Price",
+  "native_currency": "INR",
+  "target_transform": "natural logarithm",
+  "random_state": 42,
+  "split": {
+    "train": 912,
+    "calibration": 195,
+    "test": 196
+  },
+  "features": [
+    "Company",
+    "TypeName",
+    "Ram",
+    "Weight",
+    "Touchscreen",
+    "IPS",
+    "PPI",
+    "Cpu_family",
+    "Cpu_speed_ghz",
+    "HDD",
+    "SSD",
+    "Flash",
+    "Hybrid",
+    "Gpu_vendor",
+    "Gpu_dedicated",
+    "OS"
+  ],
+  "selected_model": "RandomForest",
+  "model_comparison": [
+    {
+      "model": "RandomForest",
+      "cv_r2_mean": 0.8740638856781594,
+      "cv_r2_std": 0.012815304816541247,
+      "cv_mae_log_mean": 0.170192091439651,
+      "cv_rmse_log_mean": 0.2216987031438519
+    },
+    {
+      "model": "GradientBoosting",
+      "cv_r2_mean": 0.8723718572135748,
+      "cv_r2_std": 0.012734857752648198,
+      "cv_mae_log_mean": 0.1724875339559965,
+      "cv_rmse_log_mean": 0.22322097404919994
+    },
+    {
+      "model": "ExtraTrees",
+      "cv_r2_mean": 0.857542748828679,
+      "cv_r2_std": 0.020065454164338963,
+      "cv_mae_log_mean": 0.17351600762891373,
+      "cv_rmse_log_mean": 0.23535476541628123
+    },
+    {
+      "model": "Ridge",
+      "cv_r2_mean": 0.8333661972011932,
+      "cv_r2_std": 0.016621329408416114,
+      "cv_mae_log_mean": 0.20011160466701572,
+      "cv_rmse_log_mean": 0.2548654865788435
+    }
+  ],
+  "test_metrics": {
+    "r2": 0.8737955650558661,
+    "mae_log": 0.1648873688963735,
+    "rmse_log": 0.2156189756560305,
+    "mae_inr": 9731.705724514872,
+    "rmse_inr": 15713.82367898857,
+    "median_ae_inr": 5404.825372460045,
+    "mape_percent": 17.099258829628834,
+    "interval_nominal_coverage": 0.9,
+    "interval_empirical_coverage": 0.9183673469387755,
+    "interval_log_half_width": 0.3599455618063061
+  }
+}
