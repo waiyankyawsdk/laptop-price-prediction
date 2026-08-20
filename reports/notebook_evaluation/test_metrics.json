@@ -2,7 +2,7 @@
   "R2_log_price":0.8737955651,
   "MAE_INR":9731.7057245149,
   "RMSE_INR":15713.8236789886,
-  "Median_AE_INR":5404.8253724598,
+  "Median_AE_INR":5404.82537246,
   "MAPE_percent":17.0992588296,
   "Nominal_coverage":0.9,
   "Empirical_coverage":0.9183673469
