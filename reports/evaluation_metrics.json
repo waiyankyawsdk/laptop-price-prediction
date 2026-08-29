@@ -1,0 +1,10 @@
+{
+  "test_samples": 196,
+  "r2_log_price": 0.8739665995329569,
+  "mae_inr": 9723.183811952133,
+  "rmse_inr": 15691.057515595647,
+  "median_ae_inr": 5418.788777852282,
+  "mape_percent": 17.087745604456433,
+  "interval_nominal_coverage": 0.9,
+  "interval_empirical_coverage": 0.9183673469387755
+}

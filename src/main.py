@@ -9,6 +9,14 @@ from .features import prediction_frame
 
 ROOT = Path(__file__).resolve().parents[1]; ARTIFACTS = ROOT / "artifacts"
 
+FORM_DEFAULTS = {
+    "Company": "Dell", "TypeName": "Notebook", "Cpu_family": "Intel Core i5",
+    "Gpu_vendor": "Intel", "OS": "Windows", "Ram": "8", "Weight": "1.8",
+    "PPI": "141", "Cpu_speed_ghz": "2.5", "HDD": "0", "SSD": "512",
+    "Flash": "0", "Hybrid": "0", "Touchscreen": "0", "IPS": "1",
+    "Gpu_dedicated": "0",
+}
+
 def create_app(test_config=None):
     app = Flask(__name__, static_folder=str(ROOT / "static"), template_folder=str(ROOT / "templates")); app.config.update(test_config or {})
     def assets():
@@ -19,13 +27,31 @@ def create_app(test_config=None):
         return {"price_inr": price_inr, "lower_inr": float(np.exp(log_price-q)), "upper_inr": float(np.exp(log_price+q)), "price_usd": inr_to_usd(price_inr, rate), "rate": rate}
     @app.get("/")
     def home(): return render_template("index.html")
+    @app.get("/health")
+    def health():
+        """Container/orchestrator health endpoint that also validates model assets."""
+        try:
+            _, _, metadata = assets()
+            return jsonify({
+                "status": "healthy",
+                "model": metadata.get("selected_model"),
+                "dataset_rows": metadata.get("dataset_rows"),
+            })
+        except (OSError, RuntimeError, ValueError, json.JSONDecodeError) as exc:
+            return jsonify({"status": "unhealthy", "error": str(exc)}), 503
     @app.route("/predict", methods=["GET", "POST"])
     def predict_page():
         model, options, metadata = assets(); result = error = None
+        form_data = FORM_DEFAULTS.copy()
         if request.method == "POST":
-            try: result = calculate(model, metadata, request.form.to_dict())
+            # Preserve the submitted values whether prediction succeeds or fails.
+            form_data.update(request.form.to_dict())
+            try: result = calculate(model, metadata, form_data)
             except (ValueError, TypeError) as exc: error = str(exc)
-        return render_template("prediction.html", options=options, result=result, error=error)
+        return render_template(
+            "prediction.html", options=options, result=result, error=error,
+            form_data=form_data,
+        )
     @app.post("/api/predict")
     def predict_api():
         model, _, metadata = assets()
@@ -35,8 +61,8 @@ def create_app(test_config=None):
         except (ValueError, TypeError) as exc: return jsonify({"error": str(exc)}), 400
     @app.get("/api/metrics")
     def metrics_api(): return jsonify(assets()[2])
-    @app.get("/model-performance")
-    def model_performance(): return render_template("model_performance.html", metadata=assets()[2])
+    @app.get("/metrics")
+    def metrics_page(): return render_template("metrics.html", metadata=assets()[2])
     @app.get("/methodology")
     def methodology(): return render_template("methodology.html", metadata=assets()[2])
     return app

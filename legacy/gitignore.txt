@@ -1,11 +1,8 @@
 # Ignore Python virtual environments
 venv/
-<<<<<<< HEAD
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-=======
 .venv/
 env/
 .env/
->>>>>>> 3c2d578 (Initial commit)

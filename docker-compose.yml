@@ -1,0 +1,19 @@
+services:
+  laptop-price-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laptop-price-prediction:latest
+    container_name: laptop-price-prediction
+    restart: unless-stopped
+    environment:
+      PORT: "5000"
+      INR_PER_USD: "87.0"
+    ports:
+      - "5001:5000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3

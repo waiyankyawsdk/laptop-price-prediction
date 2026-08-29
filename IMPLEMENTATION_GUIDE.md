@@ -131,7 +131,6 @@ For a true US price predictor, collect US retailer observations with USD targets
 
 ## Step 11 - Write your baseline-results section
 
-Suggested wording:
 
 > Four regression algorithms were evaluated using a fixed 70/15/15 training, calibration, and testing design. Model selection used five-fold cross-validation within the training partition. Random Forest achieved the lowest mean cross-validation log-RMSE and was selected for final evaluation. On the untouched test partition, it obtained R² = 0.874, MAE = INR 9,723, RMSE = INR 15,691, and MAPE = 17.09%. A split-conformal interval calibrated at the 90% nominal level covered 91.84% of test prices. These results represent within-dataset baseline performance and should not be interpreted as evidence of present-day market accuracy.
 

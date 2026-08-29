@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Evaluation Results{% endblock %}
+{% block content %}
+<header class="page-head">
+  <span class="eyebrow">MODEL EVALUATION</span>
+  <h1>Research results</h1>
+  <p>Human-readable results from the untouched {{ metadata.split.test }}-record test set. The JSON version remains available at <a href="{{ url_for('metrics_api') }}">/api/metrics</a>.</p>
+</header>
+
+<section class="metrics metrics-wide">
+  <div><b>{{ '%.4f'|format(metadata.test_metrics.r2) }}</b><span>Test R² on log price</span></div>
+  <div><b>₹{{ '{:,.0f}'.format(metadata.test_metrics.mae_inr) }}</b><span>Mean absolute error</span></div>
+  <div><b>₹{{ '{:,.0f}'.format(metadata.test_metrics.rmse_inr) }}</b><span>Root mean squared error</span></div>
+  <div><b>₹{{ '{:,.0f}'.format(metadata.test_metrics.median_ae_inr) }}</b><span>Median absolute error</span></div>
+  <div><b>{{ '%.2f'|format(metadata.test_metrics.mape_percent) }}%</b><span>Mean absolute percentage error</span></div>
+  <div><b>{{ '%.2f'|format(metadata.test_metrics.interval_empirical_coverage * 100) }}%</b><span>Empirical coverage of nominal 90% interval</span></div>
+</section>
+
+<section class="prose result-table-section">
+  <h2>Five-fold model comparison</h2>
+  <p>The selected model has the lowest mean cross-validated log-RMSE. All candidates used the same training folds.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>Mean CV R²</th><th>R² standard deviation</th><th>Mean CV log-RMSE</th></tr></thead>
+      <tbody>
+      {% for row in metadata.model_comparison %}
+        <tr class="{% if row.model == metadata.selected_model %}selected-row{% endif %}">
+          <td>{{ row.model }}{% if row.model == metadata.selected_model %} <span class="badge">Selected</span>{% endif %}</td>
+          <td>{{ '%.4f'|format(row.cv_r2_mean) }}</td>
+          <td>{{ '%.4f'|format(row.cv_r2_std) }}</td>
+          <td>{{ '%.4f'|format(row.cv_rmse_log_mean) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <h2>Correct interpretation</h2>
+  <p>R² is explained variation, not percentage accuracy. INR errors are calculated after reversing the logarithmic target transformation. These results measure performance inside the historical dataset and do not prove current-market accuracy.</p>
+</section>
+{% endblock %}

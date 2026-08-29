@@ -64,21 +64,24 @@ reports/test_predictions.csv
 reports/evaluation_summary.json
 ```
 
-Use these generated values in your paper rather than copying another paper's results.
-
 ## 6. Test and run
 
 ```bash
 python -m unittest discover -s tests -v
 python run.py
 ```
+Seven tests cover prediction API behavior, missing fields, form retention, the HTML metrics page, the JSON metrics API, feature engineering, and currency conversion.
 
 Open <http://127.0.0.1:5000>.
 
 - `/predict` - prediction form
 - `/methodology` - evaluation explanation
+- `/metrics` - human-readable model comparison and test results
 - `/api/predict` - JSON API
-- `/api/metrics` - complete metrics
+- `/api/metrics` - complete metrics as JSON for software integrations
+- `/metrics` displays test metrics and the five-fold model comparison as HTML.
+- `/api/metrics` continues returning JSON for software integrations.
+- The navigation menu now distinguishes **Results** from **Metrics JSON**.
 
 API example:
 
@@ -86,11 +89,59 @@ API example:
 curl -X POST http://127.0.0.1:5000/api/predict -H "Content-Type: application/json" -d @examples/sample_request.json
 ```
 
-## 7. Relationship to reference papers
+## 7. Run with Docker
+
+The supplied model artifacts are included, so the web application starts without retraining.
+
+Using Docker Compose:
+
+```bash
+docker compose up --build -d
+docker compose ps
+```
+
+Open <http://localhost:5001>. Verify that the container and model assets are healthy:
+
+```bash
+curl http://localhost:5001/health
+```
+
+Stop the application:
+
+```bash
+docker compose down
+```
+
+Using Docker directly:
+
+```bash
+docker build -t laptop-price-prediction:latest .
+docker run --name laptop-price-prediction \
+  -p 5001:5000 \
+  -e INR_PER_USD=87.0 \
+  laptop-price-prediction:latest
+```
+Using DockerHub Repo:
+
+```bash
+docker run --rm \
+  --name laptop-price-prediction \
+  -p 5001:5000 \
+  -e INR_PER_USD=87.0 \
+  waiyankyawsdk1999/laptop-price-prediction:latest
+```
+If the existing container is already running and you want to reuse it:
+
+```bash
+docker start laptop-price-prediction
+```
+To expose a different host port, change only the left side of the mapping, for example `8080:5000`.
+
+## 8. Relationship to reference papers
 
 The papers commonly reuse the approximately 1,303-row dataset and report ensemble R² values around 0.89-0.93. Exact replication is not expected unless split, seed, features, transformation and hyperparameters are identical. This project avoids hard-coded results and uses a fixed seed, shared preprocessing, identical CV folds, separate calibration/test sets, INR-scale metrics, and explicit uncertainty/currency notes.
 
-## 8. Limitation and next phase
+## 9. Limitation and next phase
 
 This old static dataset is a university baseline, not a current retail model. For your contribution, collect dated multi-retailer records including seller, country, currency, exchange rate, discount, exact CPU/GPU generation, NPU, RAM type, SSD generation, display, battery, warranty and condition. Evaluate random, SKU-grouped, future-period, retailer-held-out and country-held-out tests.
 

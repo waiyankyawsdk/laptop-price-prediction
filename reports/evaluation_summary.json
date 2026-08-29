@@ -31,43 +31,43 @@
   "model_comparison": [
     {
       "model": "RandomForest",
-      "cv_r2_mean": 0.8740638856781594,
-      "cv_r2_std": 0.012815304816541247,
-      "cv_mae_log_mean": 0.170192091439651,
-      "cv_rmse_log_mean": 0.2216987031438519
+      "cv_r2_mean": 0.8740932651377917,
+      "cv_r2_std": 0.012866162506116737,
+      "cv_mae_log_mean": 0.17019622979313398,
+      "cv_rmse_log_mean": 0.22166722239363507
     },
     {
       "model": "GradientBoosting",
-      "cv_r2_mean": 0.8723718572135748,
-      "cv_r2_std": 0.012734857752648198,
-      "cv_mae_log_mean": 0.1724875339559965,
+      "cv_r2_mean": 0.8723718572135747,
+      "cv_r2_std": 0.012734857752648206,
+      "cv_mae_log_mean": 0.17248753395599653,
       "cv_rmse_log_mean": 0.22322097404919994
     },
     {
       "model": "ExtraTrees",
-      "cv_r2_mean": 0.857542748828679,
-      "cv_r2_std": 0.020065454164338963,
-      "cv_mae_log_mean": 0.17351600762891373,
-      "cv_rmse_log_mean": 0.23535476541628123
+      "cv_r2_mean": 0.8576216157667599,
+      "cv_r2_std": 0.020041553750871154,
+      "cv_mae_log_mean": 0.17349415414458652,
+      "cv_rmse_log_mean": 0.23529024122433273
     },
     {
       "model": "Ridge",
-      "cv_r2_mean": 0.8333661972011932,
-      "cv_r2_std": 0.016621329408416114,
-      "cv_mae_log_mean": 0.20011160466701572,
-      "cv_rmse_log_mean": 0.2548654865788435
+      "cv_r2_mean": 0.8333661972011933,
+      "cv_r2_std": 0.016621329408416183,
+      "cv_mae_log_mean": 0.20011160466701564,
+      "cv_rmse_log_mean": 0.25486548657884345
     }
   ],
   "test_metrics": {
-    "r2": 0.8737955650558661,
-    "mae_log": 0.1648873688963735,
-    "rmse_log": 0.2156189756560305,
-    "mae_inr": 9731.705724514872,
-    "rmse_inr": 15713.82367898857,
-    "median_ae_inr": 5404.825372460045,
-    "mape_percent": 17.099258829628834,
+    "r2": 0.8739665995329569,
+    "mae_log": 0.16482800964783664,
+    "rmse_log": 0.21547282080114918,
+    "mae_inr": 9723.183811952127,
+    "rmse_inr": 15691.05751559566,
+    "median_ae_inr": 5418.788777852282,
+    "mape_percent": 17.087745604456416,
     "interval_nominal_coverage": 0.9,
     "interval_empirical_coverage": 0.9183673469387755,
-    "interval_log_half_width": 0.3599455618063061
+    "interval_log_half_width": 0.35893425404808177
   }
 }

@@ -1,1 +1,44 @@
-{% extends 'base.html' %}{% block title %}Predict Laptop Price{% endblock %}{% block content %}<header class="page-head"><span class="eyebrow">PREDICTION</span><h1>Enter laptop specifications</h1><p>Choose values similar to the historical dataset. New 2024–2026 hardware is outside this baseline's reliable domain.</p></header>{% if error %}<div class="alert">{{ error }}</div>{% endif %}{% if result %}<section class="result"><span>Estimated fair price</span><strong>₹{{ '{:,.0f}'.format(result.price_inr) }}</strong><b>≈ ${{ '{:,.0f}'.format(result.price_usd) }} USD</b><p>90% interval: ₹{{ '{:,.0f}'.format(result.lower_inr) }} – ₹{{ '{:,.0f}'.format(result.upper_inr) }}</p><small>Converted at ₹{{ result.rate }} per USD. USD is display-only.</small></section>{% endif %}<form method="post" class="form-grid">{% for field,label in [('Company','Brand'),('TypeName','Laptop type'),('Cpu_family','CPU family'),('Gpu_vendor','GPU vendor'),('OS','Operating system')] %}<label>{{ label }}<select name="{{ field }}" required>{% for value in options[field] %}<option value="{{ value }}">{{ value }}</option>{% endfor %}</select></label>{% endfor %}{% for name,label,value,step in [('Ram','RAM (GB)',8,1),('Weight','Weight (kg)',1.8,0.01),('PPI','Display PPI',141,0.1),('Cpu_speed_ghz','CPU speed (GHz)',2.5,0.1),('HDD','HDD (GB)',0,128),('SSD','SSD (GB)',512,128),('Flash','Flash storage (GB)',0,32),('Hybrid','Hybrid storage (GB)',0,128)] %}<label>{{ label }}<input type="number" name="{{ name }}" value="{{ value }}" step="{{ step }}" min="0" required></label>{% endfor %}{% for name,label in [('Touchscreen','Touchscreen'),('IPS','IPS panel'),('Gpu_dedicated','Dedicated GPU')] %}<label>{{ label }}<select name="{{ name }}"><option value="0">No</option><option value="1">Yes</option></select></label>{% endfor %}<button type="submit">Predict price</button></form>{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Predict Laptop Price{% endblock %}
+{% block content %}
+<header class="page-head">
+  <span class="eyebrow">PREDICTION</span>
+  <h1>Enter laptop specifications</h1>
+  <p>Choose values similar to the historical dataset. New 2024–2026 hardware is outside this baseline's reliable domain.</p>
+</header>
+{% if error %}<div class="alert">{{ error }}</div>{% endif %}
+{% if result %}
+<section class="result">
+  <span>Estimated fair price</span>
+  <strong>₹{{ '{:,.0f}'.format(result.price_inr) }}</strong>
+  <b>≈ ${{ '{:,.0f}'.format(result.price_usd) }} USD</b>
+  <p>90% interval: ₹{{ '{:,.0f}'.format(result.lower_inr) }} – ₹{{ '{:,.0f}'.format(result.upper_inr) }}</p>
+  <small>Converted at ₹{{ result.rate }} per USD. USD is display-only.</small>
+</section>
+{% endif %}
+<form method="post" action="{{ url_for('predict_page') }}" class="form-grid">
+  {% for field,label in [('Company','Brand'),('TypeName','Laptop type'),('Cpu_family','CPU family'),('Gpu_vendor','GPU vendor'),('OS','Operating system')] %}
+  <label>{{ label }}
+    <select name="{{ field }}" required>
+      {% for value in options[field] %}
+      <option value="{{ value }}" {% if form_data.get(field)|string == value|string %}selected{% endif %}>{{ value }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  {% endfor %}
+  {% for name,label,step in [('Ram','RAM (GB)',1),('Weight','Weight (kg)',0.01),('PPI','Display PPI',0.1),('Cpu_speed_ghz','CPU speed (GHz)',0.1),('HDD','HDD (GB)',128),('SSD','SSD (GB)',128),('Flash','Flash storage (GB)',32),('Hybrid','Hybrid storage (GB)',128)] %}
+  <label>{{ label }}
+    <input type="number" name="{{ name }}" value="{{ form_data.get(name, '') }}" step="{{ step }}" min="0" required>
+  </label>
+  {% endfor %}
+  {% for name,label in [('Touchscreen','Touchscreen'),('IPS','IPS panel'),('Gpu_dedicated','Dedicated GPU')] %}
+  <label>{{ label }}
+    <select name="{{ name }}">
+      <option value="0" {% if form_data.get(name)|string == '0' %}selected{% endif %}>No</option>
+      <option value="1" {% if form_data.get(name)|string == '1' %}selected{% endif %}>Yes</option>
+    </select>
+  </label>
+  {% endfor %}
+  <button type="submit">Predict price</button>
+</form>
+{% endblock %}
